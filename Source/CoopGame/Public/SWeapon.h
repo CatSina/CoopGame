@@ -65,11 +65,28 @@ protected:
 	//Drived from Rateoffire
 	float TimeBetweenShots;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapon")
+	USoundBase* FireSound;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Ammonition")
+	int32 MaxMagAmmo;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Ammonition")
+	int32 CurrentAmmo;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Ammonition")
+	int32 TotalAmmo;
+
+	bool bCanFire;
+
 public:
-	
+
 	virtual void Fire();
 	
 	void StartFire();
 
 	void StopFire();
+
+	//do this
+	void WeaponReload();
 };

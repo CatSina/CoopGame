@@ -97,6 +97,11 @@ void ASCharacter::StopFire()
 	}
 }
 
+void ASCharacter::Reload()
+{
+	CurrentWeapon->WeaponReload();
+}
+
 // Called every frame
 void ASCharacter::Tick(float DeltaTime)
 {
@@ -107,6 +112,8 @@ void ASCharacter::Tick(float DeltaTime)
 	float NewFOV = FMath::FInterpTo(CameraComp->FieldOfView, TargetFOV, DeltaTime, ZoomInterpSpeed);
 
 	CameraComp->SetFieldOfView(NewFOV);
+
+	
 
 }
 
@@ -124,13 +131,18 @@ void ASCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	PlayerInputComponent->BindAction("Crouch", IE_Pressed, this,&ASCharacter::BeginCrouch);
 	PlayerInputComponent->BindAction("Crouch", IE_Released, this,&ASCharacter::EndCrouch);
 
+	//Fix the StopJumping function it's work without it but you have jumping problems in game
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ASCharacter::Jump);
+	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ASCharacter::StopJumping);
 	
 	PlayerInputComponent->BindAction("Zoom", IE_Pressed, this, &ASCharacter::BeginZoom);
 	PlayerInputComponent->BindAction("Zoom", IE_Released, this, &ASCharacter::EndZoom);
 
 	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &ASCharacter::StartFire);
 	PlayerInputComponent->BindAction("Fire", IE_Released, this, &ASCharacter::StopFire);
+
+	PlayerInputComponent->BindAction("Reload", IE_Pressed, this, &ASCharacter::Reload);
+	
 }
 
 FVector ASCharacter::GetPawnViewLocation() const
